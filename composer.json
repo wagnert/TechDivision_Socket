@@ -1,0 +1,16 @@
+{
+    "name": "techdivision/socket",
+    "type": "package",
+    "description": "Socket wrapper for thread based PHP ApplicationServer implementation.",
+    "homepage": "https://github.com/techdivision/TechDivision_Socket",
+    "license": ["OSL-3.0"],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/techdivision/TechDivision_Socket"
+        }
+    ],
+    "require": {
+        "php" : ">=5.4.0"
+    }
+}
