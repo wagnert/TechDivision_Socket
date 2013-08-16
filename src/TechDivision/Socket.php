@@ -514,7 +514,7 @@ class Socket {
         while (($result = @socket_read($this->resource, $length, $type)) === false) {
 
             // initialize error code and message
-            $errorCode = socket_last_error();
+            $errorCode = socket_last_error($this->resource);
 
             // check for the error code and retry if possible
             if ($errorCode == self::SOCKET_ERROR_RESOURCE_TEMPORARILY_UNAVAILABLE && $readAttempts++ < self::SOCKET_READ_RETRY_COUNT) {
