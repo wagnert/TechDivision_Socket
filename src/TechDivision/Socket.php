@@ -310,14 +310,16 @@ class Socket {
      * Wrapper method for the original socket function {@link http://de3.php.net/socket_shutdown socket_shutdown()}.
      * The method shuts down a socket for receiving, sending, or both.
      *
+     *
+     * @param integer $how Hot to close the socket
      * @return Socket The socket instance itself
      * @throws SocketException Is thrown if an failure occured
      * @link http://de3.php.net/socket_shutdown
      */
-    public function shutdown() {
+    public function shutdown($how = 2) {
 
         // try to shutdown the socket
-        if (@socket_shutdown($this->resource) === false) {
+        if (@socket_shutdown($this->resource, $how) === false) {
             throw $this->newSocketException();
         }
 
