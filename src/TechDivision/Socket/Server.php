@@ -36,7 +36,6 @@ class Server extends Client {
         $this->create()
              ->setBlock()
              ->setReuseAddr()
-             ->setReceiveTimeout()
              ->bind()
              ->listen();
 
