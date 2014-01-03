@@ -18,13 +18,15 @@ use TechDivision\Socket;
  * The client socket implementation. This implementation can be used for creating a client socket implementation
  * only. To create a socket server that listens to a address/port use the {@link \TechDivision\Socket\Server Server} class.
  *
- * @package     TechDivision\Socket
- * @copyright  	Copyright (c) 2010 <info@techdivision.com> - TechDivision GmbH
- * @license    	http://opensource.org/licenses/osl-3.0.php
- *              Open Software License (OSL 3.0)
- * @author      Tim Wagner <tw@techdivision.com>
+ * @package TechDivision\Socket
+ * @copyright Copyright (c) 2014 <info@techdivision.com> - TechDivision GmbH
+ * @license http://opensource.org/licenses/osl-3.0.php
+ *          Open Software License (OSL 3.0)
+ * @author Tim Wagner <tw@techdivision.com>
  */
-class Client extends Socket {
+
+class Client extends Socket
+{
 
     /**
      *  The number of bytes to send/receive.
@@ -45,7 +47,8 @@ class Client extends Socket {
      * @param integer $port The port to initialize the socket with
      * @return void
      */
-    public function __construct($address = '0.0.0.0', $port = 0) {
+    public function __construct($address = '0.0.0.0', $port = 0)
+    {
         $this->setAddress($address);
         $this->setPort($port);
     }
@@ -55,7 +58,8 @@ class Client extends Socket {
      *
      * @return integer The number of bytes to send/receive
      */
-    public function getLineLength() {
+    public function getLineLength()
+    {
         return $this->lineLength;
     }
 
@@ -64,7 +68,8 @@ class Client extends Socket {
      *
      * @return string The new line character
      */
-    public function getNewLine() {
+    public function getNewLine()
+    {
         return $this->newLine;
     }
 
@@ -73,7 +78,8 @@ class Client extends Socket {
      *
      * @return \TechDivision\Socket The socket instance itself
      */
-    public function start() {
+    public function start()
+    {
         return $this->create()->connect();
     }
 
@@ -83,7 +89,8 @@ class Client extends Socket {
      * @param string $data The data to send
      * @return integer The number of bytes sent
      */
-    public function sendLine($data) {
+    public function sendLine($data)
+    {
         return $this->send($data . $this->getNewLine());
     }
 
@@ -92,7 +99,8 @@ class Client extends Socket {
      *
      * @return string The data read from the socket
      */
-    public function readLine() {
+    public function readLine()
+    {
             
         // initialize the buffer
         $buffer = '';
