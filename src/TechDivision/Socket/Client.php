@@ -1,13 +1,15 @@
 <?php
-
 /**
  * TechDivision\Socket\Client
  *
- * NOTICE OF LICENSE
+ * PHP version 5
  *
- * This source file is subject to the Open Software License (OSL 3.0)
- * that is available through the world-wide-web at this URL:
- * http://opensource.org/licenses/osl-3.0.php
+ * @category  Appserver.io
+ * @package   TechDivision_Socket
+ * @author    Tim Wagner <tw@techdivision.com>
+ * @copyright 2013 TechDivision GmbH <info@techdivision.com>
+ * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
+ * @link      http://www.appserver.io
  */
 
 namespace TechDivision\Socket;
@@ -18,11 +20,12 @@ use TechDivision\Socket;
  * The client socket implementation. This implementation can be used for creating a client socket implementation
  * only. To create a socket server that listens to a address/port use the {@link \TechDivision\Socket\Server Server} class.
  *
- * @package TechDivision\Socket
- * @copyright Copyright (c) 2014 <info@techdivision.com> - TechDivision GmbH
- * @license http://opensource.org/licenses/osl-3.0.php
- *          Open Software License (OSL 3.0)
- * @author Tim Wagner <tw@techdivision.com>
+ * @category  Appserver.io
+ * @package   TechDivision_Socket
+ * @author    Tim Wagner <tw@techdivision.com>
+ * @copyright 2013 TechDivision GmbH <info@techdivision.com>
+ * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
+ * @link      http://www.appserver.io
  */
 
 class Client extends Socket
@@ -43,8 +46,9 @@ class Client extends Socket
     /**
      * Initialize the client socket with the IP address and port.
      *
-     * @param string $address The IP address to initialize the socket with
-     * @param integer $port The port to initialize the socket with
+     * @param string  $address The IP address to initialize the socket with
+     * @param integer $port    The port to initialize the socket with
+     *
      * @return void
      */
     public function __construct($address = '0.0.0.0', $port = 0)
@@ -87,6 +91,7 @@ class Client extends Socket
      * Sends a line (ends with the new line character) over the socket.
      *
      * @param string $data The data to send
+     *
      * @return integer The number of bytes sent
      */
     public function sendLine($data)
@@ -117,5 +122,4 @@ class Client extends Socket
             }
         }
     }
-
 }
