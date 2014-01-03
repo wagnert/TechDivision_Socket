@@ -15,7 +15,7 @@
 namespace TechDivision;
 
 /**
- * The server socket implementation.
+ * A Socket exception implementation.
  *
  * @category  Appserver.io
  * @package   TechDivision_Socket
