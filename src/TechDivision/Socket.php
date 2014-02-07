@@ -31,42 +31,42 @@ class Socket
 {
     /**
      * The *nix socket error number for Resource Temporarily Unavailable state.
-     * 
+     *
      * @var integer
      */
     const SOCKET_ERROR_RESOURCE_TEMPORARILY_UNAVAILABLE = 11;
 
     /**
      * Times to retry reading from one socket if error 11 occurs.
-     * 
+     *
      * @var integer
      */
     const SOCKET_READ_RETRY_COUNT = 10;
 
     /**
      * The time to wait between two read attempts on one socket in microseconds (here: 0.1 sec).
-     * 
+     *
      * @var integer
      */
     const SOCKET_READ_RETRY_WAIT_TIME_USEC = 100000;
 
     /**
      * The socket resource.
-     * 
+     *
      * @var resource
      */
     protected $resource = null;
 
     /**
      * The default address the socket listens to.
-     * 
+     *
      * @var string
      */
     protected $address = '127.0.0.1';
 
     /**
      * The default port the socket listens to.
-     * 
+     *
      * @var int
      */
     protected $port = 0;
@@ -84,16 +84,16 @@ class Socket
 
     /**
      *
-     * @var unknown
+     * @var boolean
      */
     protected $blocking = false;
 
     /**
      * Initializes the socket instance with the socket resource.
      *
-     * @param resource $resource The socket resource
+     * @param resource|null $resource The socket resource
      *
-     * @return \TechDivision\Socket
+     * @return void
      */
     public function __construct($resource = null)
     {
@@ -184,7 +184,7 @@ class Socket
 
     /**
      * Return's the socket's backlog that specifies the maximum of backlog incoming connections that will be queued for processing.
-     * 
+     *
      * @return int
      * @link http://http://de3.php.net/socket_listen
      */
@@ -202,12 +202,12 @@ class Socket
      */
     public function create()
     {
-        
+
         // create new socket
         if (($this->resource = @socket_create(AF_INET, SOCK_STREAM, SOL_TCP)) === false) {
             $this->newSocketException();
         }
-        
+
         // return the instance itself
         return $this;
     }
@@ -231,14 +231,14 @@ class Socket
      */
     public function setBlock()
     {
-        
+
         // activate blocking mode
         $this->blocking = true;
-        
+
         if (@socket_set_block($this->resource) === false) {
             $this->newSocketException();
         }
-        
+
         // return the instance itself
         return $this;
     }
@@ -252,15 +252,15 @@ class Socket
      */
     public function setNoBlock()
     {
-        
+
         // activate non blocking mode
         $this->blocking = false;
-        
+
         // set the socket in non-blocking mode
         if (@socket_set_nonblock($this->resource) === false) {
             $this->newSocketException();
         }
-        
+
         // return the instance itself
         return $this;
     }
@@ -344,12 +344,12 @@ class Socket
      */
     public function close()
     {
-        
+
         // try to close the socket
         if (@socket_close($this->resource) === false) {
             throw $this->newSocketException();
         }
-        
+
         // return the socket instance itself
         return $this;
     }
@@ -359,19 +359,19 @@ class Socket
      * The method shuts down a socket for receiving, sending, or both.
      *
      * @param integer $how Hot to close the socket
-     * 
+     *
      * @return Socket The socket instance itself
      * @throws SocketException Is thrown if an failure occured
      * @link http://de3.php.net/socket_shutdown
      */
     public function shutdown($how = 2)
     {
-        
+
         // try to shutdown the socket
         if (@socket_shutdown($this->resource, $how) === false) {
             throw $this->newSocketException();
         }
-        
+
         // return the socket instance itself
         return $this;
     }
@@ -386,12 +386,12 @@ class Socket
      */
     public function connect()
     {
-        
+
         // connect to a socket
         if (@socket_connect($this->resource, $this->getAddress(), $this->getPort()) === false) {
             throw $this->newSocketException();
         }
-        
+
         // return the socket instance itself
         return $this;
     }
@@ -408,12 +408,12 @@ class Socket
      */
     public function send($data)
     {
-        
+
         // try to send the data to the socket
         if (($bytesSend = @socket_write($this->resource, $data)) === false) {
             throw $this->newSocketException();
         }
-        
+
         // return the number of bytes sent
         return $bytesSend;
     }
@@ -428,27 +428,27 @@ class Socket
      */
     public function bind()
     {
-        
+
         // bind the source address
         if (@socket_bind($this->resource, $this->getAddress(), $this->getPort()) === false) {
-            
+
             // temporarily store the error code to throw a nested exception maybe
             $errorCode = socket_last_error($this->resource);
-            
+
             try {
-                
+
                 // try to close the socket
                 $this->close();
             } catch (SocketException $previous) {
-                
+
                 // throw a nested exception
                 throw $this->newSocketException($errorCode, $previous);
             }
-            
+
             // throw a normal exception if the socket has successfully been closed
             throw $this->newSocketException($errorCode);
         }
-        
+
         // return the socket instance itself
         return $this;
     }
@@ -463,27 +463,27 @@ class Socket
      */
     public function listen()
     {
-        
+
         // list to the socket
         if (@socket_listen($this->resource, $this->getBacklog()) === false) {
-            
+
             // temporarily store the error code to throw a nested exception maybe
             $errorCode = socket_last_error($this->resource);
-            
+
             try {
-                
+
                 // try to close the socket
                 $this->close();
             } catch (SocketException $previous) {
-                
+
                 // throw a nested exception
                 throw $this->newSocketException($errorCode, $previous);
             }
-            
+
             // throw a normal exception if the socket has successfully been closed
             throw $this->newSocketException($errorCode);
         }
-        
+
         // return the socket instance itself
         return $this;
     }
@@ -510,12 +510,12 @@ class Socket
      */
     public function select(&$read, &$write, &$except, $timeoutSeconds = null, $timeoutMicroseconds = 0)
     {
-        
+
         // now call select - blocking call
         if (@socket_select($read, $write, $except, $timeoutSeconds, $timeoutMicroseconds) === false) {
             throw $this->newSocketException();
         }
-        
+
         // return the socket instance itself
         return $this;
     }
@@ -530,17 +530,17 @@ class Socket
      */
     public function accept()
     {
-        
+
         // accept a new incoming connection
         $client = @socket_accept($this->resource);
-        
+
         // check if a new incoming connection has been accepted
         if ($client === false && $this->isBlocking()) {
             throw $this->newSocketException();
         } elseif ($client === false && $this->isBlocking() === false) {
             return false;
         }
-        
+
         // return a new client socket instance
         return new Socket($client);
     }
@@ -567,30 +567,30 @@ class Socket
      */
     public function read($length, $type = PHP_BINARY_READ)
     {
-        
+
         // record the number of read attempts
         $readAttempts = 0;
-        
+
         // try to read data from the socket
         while (($result = @socket_read($this->resource, $length, $type)) === false) {
-            
+
             // initialize error code and message
             $errorCode = socket_last_error($this->resource);
-            
+
             // check for the error code and retry if possible
             if ($errorCode == self::SOCKET_ERROR_RESOURCE_TEMPORARILY_UNAVAILABLE && $readAttempts ++ < self::SOCKET_READ_RETRY_COUNT) {
-                
+
                 // sleep for a certain time
                 usleep(self::SOCKET_READ_RETRY_WAIT_TIME_USEC);
-                
+
                 // continue with the next read attempt
                 continue;
             }
-            
+
             // on any other socket error, or if the max. number of read attempts has been reached, throw exception
             throw $this->newSocketException();
         }
-        
+
         // return the string read from the socket
         return $result;
     }
@@ -622,27 +622,27 @@ class Socket
     {
         // prepare the buffer for the result
         $result = '';
-        
+
         // try to read data from the socket
         while (@socket_recvfrom($this->resource, $result, $length, $flags, $this->address, $this->port) === false) {
 
             // initialize error code and message
             $errorCode = socket_last_error($this->resource);
-            
+
             // check for the error code and retry if possible
             if ($errorCode == self::SOCKET_ERROR_RESOURCE_TEMPORARILY_UNAVAILABLE && $readAttempts ++ < self::SOCKET_READ_RETRY_COUNT) {
-            
+
                 // sleep for a certain time
                 usleep(self::SOCKET_READ_RETRY_WAIT_TIME_USEC);
-            
+
                 // continue with the next read attempt
                 continue;
             }
-            
+
             // on any other socket error, or if the max. number of read attempts has been reached, throw exception
             throw $this->newSocketException();
         }
-        
+
         // return the string read from the socket
         return $result;
     }
@@ -660,12 +660,12 @@ class Socket
      */
     public function getSockName(&$address, &$port)
     {
-        
+
         // query the local socket
         if (@socket_getsockname($this->resource, $address, $port) === false) {
             throw $this->newSocketException();
         }
-        
+
         // return the instance itself
         return $this;
     }
@@ -683,12 +683,12 @@ class Socket
      */
     public function getPeerName(&$address, &$port)
     {
-        
+
         // query the remote socket
         if (@socket_getpeername($this->resource, $address, $port) === false) {
             throw $this->newSocketException();
         }
-        
+
         // return the instance itself
         return $this;
     }
@@ -707,27 +707,27 @@ class Socket
      */
     public function setOption($level, $optionName, $value)
     {
-        
+
         // try to set the socket's receive timeout
         if (@socket_set_option($this->resource, $level, $optionName, $value) === false) {
-            
+
             // temporarily store the error code to throw a nested exception maybe
             $errorCode = socket_last_error($this->resource);
-            
+
             try {
-                
+
                 // try to close the socket
                 $this->close();
             } catch (SocketException $previous) {
-                
+
                 // throw a nested exception
                 throw $this->newSocketException($errorCode, $previous);
             }
-            
+
             // throw a normal exception if the socket has successfully been closed
             throw $this->newSocketException($errorCode);
         }
-        
+
         // the socket instance itself
         return $this;
     }
@@ -743,15 +743,15 @@ class Socket
      */
     protected function newSocketException($errorCode = null, $se = null)
     {
-        
+
         // initialize error code if no error code has been passed
         if ($errorCode == null) {
             $errorCode = socket_last_error();
         }
-        
+
         // initialize the error message based on the code
         $errorMessage = socket_strerror($errorCode);
-        
+
         // throw an exception
         return new SocketException($errorMessage, $errorCode, $se);
     }
