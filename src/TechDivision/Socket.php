@@ -26,7 +26,6 @@ use TechDivision\SocketException;
  * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  * @link      http://www.appserver.io
  */
-
 class Socket
 {
     /**
@@ -83,7 +82,6 @@ class Socket
     protected $backlog = 100;
 
     /**
-     *
      * @var boolean
      */
     protected $blocking = false;
@@ -91,7 +89,9 @@ class Socket
     /**
      * Initializes the socket instance with the socket resource.
      *
-     * @param resource|null $resource The socket resource
+     * @param mixed $resource The socket resource
+     *
+     * TODO $resource is marked as mixed as there are already closed resources incoming. Have a look at that
      *
      * @return void
      */
@@ -103,20 +103,21 @@ class Socket
     /**
      * Set's the socket resource to use.
      *
-     * @param resource $resource The socket resource to use
+     * @param mixed $resource The socket resource to use
      *
-     * @return Socket The socket instance itself
+     * @return \TechDivision\Socket The socket instance itself
      */
     public function setResource($resource)
     {
         $this->resource = $resource;
+
         return $this;
     }
 
     /**
      * Returns the socket resource used to connect to the socket.
      *
-     * @return resource The socket resource
+     * @return mixed The socket resource
      */
     public function getResource()
     {
@@ -128,11 +129,12 @@ class Socket
      *
      * @param string $address The address the socket listens to
      *
-     * @return Socket The socket instance itself
+     * @return \TechDivision\Socket The socket instance itself
      */
     public function setAddress($address)
     {
         $this->address = $address;
+
         return $this;
     }
 
@@ -151,18 +153,19 @@ class Socket
      *
      * @param integer $port The port the socket listens to
      *
-     * @return Socket The socket instance itself
+     * @return \TechDivision\Socket The socket instance itself
      */
     public function setPort($port)
     {
         $this->port = $port;
+
         return $this;
     }
 
     /**
      * Returns the port the socket listens to.
      *
-     * @return integer The port the socket listens to.
+     * @return int The port the socket listens to.
      */
     public function getPort()
     {
@@ -174,16 +177,18 @@ class Socket
      *
      * @param integer $backlog The maximum backlog number of incoming connections
      *
-     * @return Socket The socket instance itself
+     * @return \TechDivision\Socket The socket instance itself
      */
     public function setBacklog($backlog)
     {
         $this->backlog = $backlog;
+
         return $this;
     }
 
     /**
-     * Return's the socket's backlog that specifies the maximum of backlog incoming connections that will be queued for processing.
+     * Return's the socket's backlog that specifies the maximum of backlog incoming connections
+     * that will be queued for processing.
      *
      * @return int
      * @link http://http://de3.php.net/socket_listen
@@ -194,10 +199,11 @@ class Socket
     }
 
     /**
-     * This method create's a socket (endpoint for communication) by calling the socket function {@link http://de3.php.net/socket_create socket_create()}.
+     * This method create's a socket (endpoint for communication) by calling the socket function
+     * {@link http://de3.php.net/socket_create socket_create()}.
      *
-     * @return Socket The socket instance itself
-     * @throws SocketException Is thrown if an failure occured
+     * @return \TechDivision\Socket The socket instance itself
+     * @throws \TechDivision\SocketException Is thrown if an failure occured
      * @link http://de3.php.net/socket_create
      */
     public function create()
@@ -223,10 +229,11 @@ class Socket
     }
 
     /**
-     * This method set's the socket in blocking mode by calling the socket function {@link http://de3.php.net/socket_set_block socket_set_block()}.
+     * This method set's the socket in blocking mode by calling the socket function
+     *      {@link http://de3.php.net/socket_set_block socket_set_block()}.
      *
-     * @return Socket The socket instance itself
-     * @throws SocketException Is thrown if an failure occured
+     * @return \TechDivision\Socket The socket instance itself
+     * @throws \TechDivision\SocketException Is thrown if an failure occured
      * @link http://de3.php.net/socket_set_block
      */
     public function setBlock()
@@ -244,7 +251,8 @@ class Socket
     }
 
     /**
-     * This method set's the socket in non-blocking mode by calling the socket function {@link http://de3.php.net/socket_set_nonblock socket_set_nonblock()}.
+     * This method set's the socket in non-blocking mode by calling the socket function
+     *      {@link http://de3.php.net/socket_set_nonblock socket_set_nonblock()}.
      *
      * @return Socket The socket instance itself
      * @throws SocketException Is thrown if an failure occured
@@ -266,7 +274,8 @@ class Socket
     }
 
     /**
-     * This method set's whether the local addresses can be reused by calling the socket function {@link http://de3.php.net/socket_set_option socket_set_option()}.
+     * This method set's whether the local addresses can be reused by calling the socket function
+     *      {@link http://de3.php.net/socket_set_option socket_set_option()}.
      *
      * @param integer $reuse Has to be 1 if the address can be reused, else false
      *
@@ -280,7 +289,8 @@ class Socket
     }
 
     /**
-     * This method sets the timeout value for input operations by calling the socket function {@link http://de3.php.net/socket_set_option socket_set_option()}.
+     * This method sets the timeout value for input operations by calling the socket function
+     *      {@link http://de3.php.net/socket_set_option socket_set_option()}.
      *
      * @param integer $seconds      The seconds part on the timeout
      * @param integer $microseconds The microseconds part on the timeout
@@ -302,7 +312,8 @@ class Socket
     }
 
     /**
-     * This method set's the socket's lingering option by calling the socket function {@link http://de3.php.net/socket_set_option socket_set_option()}.
+     * This method set's the socket's lingering option by calling the socket function
+     * {@link http://de3.php.net/socket_set_option socket_set_option()}.
      *
      * When an application program indicates that a socket is to linger, it also specifies a duration for the
      * lingering period. If the lingering period expires before the disconnect is completed, the socket layer
@@ -311,12 +322,13 @@ class Socket
      * If onOff is non-zero and linger is zero, all the unsent data will be discarded and RST (reset) is sent to
      * the peer in the case of a connection-oriented socket. On the other hand, if onOff is non-zero and linger is
      * non-zero, {@link http://de3.php.net/socket_close socket_close()} will block until all the data is sent or the
-     * time specified in l_linger elapses. If the socket is non-blocking, {@link http://de3.php.net/socket_close socket_close()}
+     * time specified in l_linger elapses. If the socket is non-blocking,
+     * {@link http://de3.php.net/socket_close socket_close()}
      * will fail and return an error.
      *
      * @param integer $onOff  Switches lingering on if integer is passed that is non-zero
      * @param integer $linger By setting this to non-zero {@link http://de3.php.net/socket_close socket_close()} will
-     * block until all the data is sent or the timeout elapses
+     *                        block until all the data is sent or the timeout elapses
      *
      * @return Socket The socket instance itself
      * @throws SocketException Is thrown if an failure occured
@@ -499,8 +511,10 @@ class Socket
      * {@link http://de3.php.net/socket_select socket_select()}
      * can block indefinitely.
      *
-     * @param array   &$read               The sockets listed in the read array will be watched to see if characters become available for reading
-     * @param array   &$write              The sockets listed in the write array will be watched to see if a write will not block
+     * @param array   &$read               The sockets listed in the read array will be watched to see if characters
+     *                                     become available for reading
+     * @param array   &$write              The sockets listed in the write array will be watched to
+     *                                     see if a write will not block
      * @param array   &$except             The sockets listed in the except array will be watched for exceptions
      * @param integer $timeoutSeconds      Timeout in seconds, or null if no timeout should be used
      * @param int     $timeoutMicroseconds Timeout in microseconds
@@ -524,7 +538,7 @@ class Socket
      * Wrapper method for the original socket function {@link http://de3.php.net/socket_accept socket_accept()}.
      * The method accepts a new connection on the socket.
      *
-     * @return Socket A new client socket
+     * @return mixed A new client socket
      * @throws SocketException Is thrown if an failure occured
      * @link http://de3.php.net/socket_accept
      */
@@ -578,7 +592,9 @@ class Socket
             $errorCode = socket_last_error($this->resource);
 
             // check for the error code and retry if possible
-            if ($errorCode == self::SOCKET_ERROR_RESOURCE_TEMPORARILY_UNAVAILABLE && $readAttempts ++ < self::SOCKET_READ_RETRY_COUNT) {
+            if ($errorCode == self::SOCKET_ERROR_RESOURCE_TEMPORARILY_UNAVAILABLE &&
+                $readAttempts++ < self::SOCKET_READ_RETRY_COUNT
+            ) {
 
                 // sleep for a certain time
                 usleep(self::SOCKET_READ_RETRY_WAIT_TIME_USEC);
@@ -612,7 +628,8 @@ class Socket
      * host in the case of an unconnected AF_INET or AF_INET6 socket.
      *
      * @param integer $length Up to length bytes will be fetched from remote host
-     * @param integer $flags  The value of flags can be any combination of the following flags, joined with the binary OR (|) operator
+     * @param integer $flags  The value of flags can be any combination of the following flags,
+     *                        joined with the binary OR (|) operator
      *
      * @return string The string read from the socket
      * @throws SocketException Is thrown if a failure occured
@@ -630,7 +647,9 @@ class Socket
             $errorCode = socket_last_error($this->resource);
 
             // check for the error code and retry if possible
-            if ($errorCode == self::SOCKET_ERROR_RESOURCE_TEMPORARILY_UNAVAILABLE && $readAttempts ++ < self::SOCKET_READ_RETRY_COUNT) {
+            if ($errorCode == self::SOCKET_ERROR_RESOURCE_TEMPORARILY_UNAVAILABLE &&
+                $readAttempts++ < self::SOCKET_READ_RETRY_COUNT
+            ) {
 
                 // sleep for a certain time
                 usleep(self::SOCKET_READ_RETRY_WAIT_TIME_USEC);
@@ -648,7 +667,8 @@ class Socket
     }
 
     /**
-     * Wrapper method for the original socket function {@link http://de3.php.net/socket_getsockname socket_getsockname()}.
+     * Wrapper method for the original socket function
+     * {@link http://de3.php.net/socket_getsockname socket_getsockname()}.
      * The method queries the local side of the socket.
      *
      * @param string  &$address The local address
@@ -671,7 +691,8 @@ class Socket
     }
 
     /**
-     * Wrapper method for the original socket function {@link http://de3.php.net/socket_getpeername socket_getpeername()}.
+     * Wrapper method for the original socket function
+     * {@link http://de3.php.net/socket_getpeername socket_getpeername()}.
      * The method queries the remote side of the socket.
      *
      * @param string  &$address The remote address
@@ -736,10 +757,10 @@ class Socket
      * Returns a new socket exception initialized with the passed error message and the last
      * found socket error.
      *
-     * @param integer         $errorCode The error code to initialize the exception with
-     * @param SocketException $se        The previous exception if available
+     * @param int|null                           $errorCode The error code to initialize the exception with
+     * @param \TechDivision\SocketException|null $se        The previous exception if available
      *
-     * @return SocketException The initialized exception ready to be thrown
+     * @return \TechDivision\SocketException The initialized exception ready to be thrown
      */
     protected function newSocketException($errorCode = null, $se = null)
     {
