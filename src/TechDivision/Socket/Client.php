@@ -1,5 +1,4 @@
 <?php
-
 /**
  * TechDivision\Socket\Client
  *
@@ -27,7 +26,7 @@ use TechDivision\Socket;
  * The client socket implementation. This implementation can be used for creating a client 
  * socket implementation only. To create a socket server that listens to a address/port use 
  * the {@link \TechDivision\Socket\Server Server} class.
- *
+ * 
  * @category   Appserver
  * @package    TechDivision_Socket
  * @subpackage Socket

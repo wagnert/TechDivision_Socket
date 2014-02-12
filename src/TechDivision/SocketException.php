@@ -1,5 +1,4 @@
 <?php
-
 /**
  * TechDivision\SocketException
  *
@@ -22,8 +21,8 @@
 namespace TechDivision;
 
 /**
- * A socket exception implementation.
- *
+ * A Socket exception implementation.
+ * 
  * @category  Appserver
  * @package   TechDivision_Socket
  * @author    Tim Wagner <tw@techdivision.com>

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * TechDivision\Socket\Server
  *
@@ -25,7 +24,7 @@ use TechDivision\Socket\Client;
 
 /**
  * The server socket implementation.
- *
+ * 
  * @category   Appserver
  * @package    TechDivision_Socket
  * @subpackage Socket
@@ -47,10 +46,10 @@ class Server extends Client
 
         // create, bind and listen
         $this->create()
-             ->setBlock()
-             ->setReuseAddr()
-             ->bind()
-             ->listen();
+            ->setBlock()
+            ->setReuseAddr()
+            ->bind()
+            ->listen();
 
         // return the instance
         return $this;
