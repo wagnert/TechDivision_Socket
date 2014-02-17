@@ -110,6 +110,7 @@ class Client extends Socket
      * Reads a line (ends with the new line character) from the socket.
      *
      * @return string The data read from the socket
+     * @link http://de3.php.net/socket_read
      */
     public function readLine()
     {
@@ -128,5 +129,8 @@ class Client extends Socket
                 return rtrim($buffer, $newLine);
             }
         }
+        
+        // return an empty buffer if no more data is available
+        return $buffer;
     }
 }
